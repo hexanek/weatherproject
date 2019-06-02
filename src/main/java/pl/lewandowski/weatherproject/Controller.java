@@ -23,4 +23,16 @@ public class Controller {
                 Object.class);
         return response;
     }
+
+    @GetMapping("/prognoza/{city}/{code}")
+    public @ResponseBody Object getForecast(@PathVariable String city,
+                                            @PathVariable String code){
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+
+        ResponseEntity<Object> response = restTemplate.getForEntity("https://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + code +
+                        "&APPID=" + ConfigKey.API_KEY,
+                Object.class);
+        return response;
+    }
 }
