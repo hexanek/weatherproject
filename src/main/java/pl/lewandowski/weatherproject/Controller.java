@@ -1,5 +1,7 @@
 package pl.lewandowski.weatherproject;
 
+import org.springframework.boot.json.JsonParser;
+import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,8 +10,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
+
 @RestController
 public class Controller {
+
+
+
+
 
     @GetMapping("/pogoda/{country}/{city}")
     public @ResponseBody Object getWeather(@PathVariable String country,
