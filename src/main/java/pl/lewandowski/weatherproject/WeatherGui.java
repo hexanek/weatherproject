@@ -22,8 +22,8 @@ public class WeatherGui extends VerticalLayout {
 
 
     private TextField miasto = new TextField("Podaj miasto");
-    private TextField panstwo  = new TextField("Podaj państwo");
-    private TextArea opis = new TextArea("Opis");
+    private TextField panstwo  = new TextField("Podaj państwo (w języku angielskim)");
+    private TextArea opis = new TextArea("Dane");
     private Button button = new Button("Sprawdź");
 
 
@@ -51,8 +51,11 @@ public class WeatherGui extends VerticalLayout {
         //String lat = jsonElement.getAsJsonObject().get("coord").getAsJsonObject().get("lat").getAsString();
         int weather = jsonElement.getAsJsonObject().get("clouds").getAsJsonObject().get("all").getAsInt();
         int temp = jsonElement.getAsJsonObject().get("main").getAsJsonObject().get("temp").getAsInt() - 273;
+        int pressure = jsonElement.getAsJsonObject().get("main").getAsJsonObject().get("pressure").getAsInt();
+        int humidity = jsonElement.getAsJsonObject().get("main").getAsJsonObject().get("humidity").getAsInt();
 
-        opis.setValue("Temperature in "+ city + " " + temp + " °C and cloudiness " +weather + "%");
+        opis.setValue("Temperatura w mieście "+ city + " " + temp + " °C, zachmurzenie " +weather + "% ,ciśnienie: "+pressure+" hPa, " +
+                "wilgotność "+humidity+ "%");
 
 
 
