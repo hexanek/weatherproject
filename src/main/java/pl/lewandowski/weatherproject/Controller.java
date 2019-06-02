@@ -19,7 +19,7 @@ public class Controller {
         HttpHeaders headers = new HttpHeaders();
 
         ResponseEntity<Object> response = restTemplate.getForEntity("https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + country +
-                        "&APPID=80730ceb55c51bebae397cfc46e03344",
+                        "&APPID=" + ConfigKey.API_KEY,
                 Object.class);
         return response;
     }
