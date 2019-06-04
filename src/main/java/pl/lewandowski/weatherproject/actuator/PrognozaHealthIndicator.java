@@ -4,6 +4,7 @@ import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -19,13 +20,9 @@ public class PrognozaHealthIndicator implements HealthIndicator {
         String url = "https://api.openweathermap.org/data/2.5/forecast?q=gdynia,pl&APPID=d50e2ced77c40b123bb179d8e5652e86";
         String url2 = "api.openweathermap.org";
         try {
-            String resp = restTemplate.getForObject(url, String.class);
-            //System.out.println("-------------->" + resp);
-            JsonParser springParser = JsonParserFactory.getJsonParser();
-            Map<String, Object> map = springParser.parseMap(resp);
+            ResponseEntity<String> resp = restTemplate.getForEntity(url, String.class);
 
-
-            if ("200".equalsIgnoreCase((String) map.get("cod"))) {
+            if (resp.hasBody()) {
                 return Health.up().withDetail("endpoint /prognoza up with getting data from api: ", url2).
                         build();
             } else {
