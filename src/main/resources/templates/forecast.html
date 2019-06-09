@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Forecast</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <link href="css/style2.css" rel="stylesheet" type="text/css"/>
+
+
+
+</head>
+<body class="bck">
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto">
+
+</div>
+<script>
+    var data = {
+        "ts": {{dates}},
+        "data1": {{temp}}
+    };
+    var seriesData = [],
+        jdata = data,
+        len = jdata.data1.length,
+        i = 0;
+    for (; i < len; i++) {
+        seriesData.push([jdata.ts[i], jdata.data1[i]]);
+    }
+
+    Highcharts.chart('container', {
+    chart: {
+        type: 'spline'
+    },
+    title: {
+        text: '5 day forecast for {{city}}'
+    },
+
+    xAxis: {
+        type: 'datetime',
+
+        labels:{
+            formatter:function(){
+                return Highcharts.dateFormat('%m %d %H:%M',this.value);
+            },}
+
+
+
+    },
+    yAxis: {
+        title: {
+            text: 'Temperature'
+        },
+        labels: {
+            formatter: function () {
+                return this.value + '°';
+            }
+        }
+    },
+    tooltip: {
+        crosshairs: true,
+        shared: true
+    },
+    plotOptions: {
+        spline: {
+            marker: {
+                radius: 4,
+                lineColor: '#666666',
+                lineWidth: 1
+            }
+        }
+    },
+    series: [{
+        name: '{{city}}',
+        marker: {
+            symbol: 'square'
+        },
+        data: seriesData,
+
+
+
+
+
+    }]
+});</script>
+</body>
+</html>

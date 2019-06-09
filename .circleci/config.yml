@@ -41,6 +41,10 @@ workflows:
   build-deploy:
     jobs:
       - superbuild
-      - superdeploy:
+      - hold:
+          type: approval
           requires:
             - superbuild
+      - superdeploy:
+          requires:
+            - hold
