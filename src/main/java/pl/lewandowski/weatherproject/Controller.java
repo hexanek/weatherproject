@@ -14,28 +14,29 @@ public class Controller {
 
 
     @GetMapping("/pogoda/{country}/{city}")
-    public @ResponseBody Object getWeather(@PathVariable String country,
-                                           @PathVariable String city){
+    public @ResponseBody
+    String[] getWeather(@PathVariable String country,
+                      @PathVariable String city){
 
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
 
-        ResponseEntity<Object> response = restTemplate.getForEntity("https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + country +
+        ResponseEntity<String[]> response = restTemplate.getForEntity("https://api.openweathermap.org/data/2.5/weather?q=" + city + "," + country +
                         "&APPID=" + ConfigKey.API_KEY,
-                Object.class);
-        return response;
+                String[].class);
+        return response.getBody();
     }
 
     @GetMapping("/prognoza/{city}/{code}")
-    public @ResponseBody Object getForecast(@PathVariable String city,
+    public @ResponseBody String[] getForecast(@PathVariable String city,
                                             @PathVariable String code){
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
 
-        ResponseEntity<Object> response = restTemplate.getForEntity("https://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + code +
+        ResponseEntity<String[]> response = restTemplate.getForEntity("https://api.openweathermap.org/data/2.5/forecast?q=" + city + "," + code +
                         "&APPID=" + ConfigKey.API_KEY,
-                Object.class);
-        return response;
+                String[].class);
+        return response.getBody();
     }
 
 

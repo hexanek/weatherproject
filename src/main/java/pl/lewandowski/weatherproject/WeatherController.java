@@ -19,9 +19,15 @@ import java.util.*;
 @Controller
 public class WeatherController {
 
-    @Autowired
+    Weather weather;
     CoordsRepo coordsRepo;
+    WeatherRepo weatherRepo;
 
+    @Autowired
+    public WeatherController(CoordsRepo coordsRepo, WeatherRepo weatherRepo) {
+        this.coordsRepo = coordsRepo;
+        this.weatherRepo = weatherRepo;
+    }
 
     private Integer timestamp;
     private int temperature;
@@ -61,7 +67,8 @@ public class WeatherController {
         lon = parser.getAsJsonObject().get("coord").getAsJsonObject().get("lon").getAsDouble();
         lat = parser.getAsJsonObject().get("coord").getAsJsonObject().get("lat").getAsDouble();
         coordSaver();
-
+        Weather weather = new Weather(city,country,wind,pressure,lat,lon,temperature);
+        weatherRepo.save(weather);
 
         return "redirect:/weather";
     }
@@ -85,15 +92,9 @@ public class WeatherController {
     private void coordSaver(){
         Coords coords = new Coords(lon,lat,city2);
         coordsRepo.save(coords);
-
     }
 
-//
-//    @GetMapping("/getcords")
-//    private List<Coords> getCoords(){
-//
-//       return (List<Coords>) coordsRepo.findAll();
-//    }
+
 
 
 }
