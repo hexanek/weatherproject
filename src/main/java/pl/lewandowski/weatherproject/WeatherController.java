@@ -30,7 +30,8 @@ public class WeatherController {
     private int pressure;
     private double lat;
     private double lon;
-    private String resp;
+
+
     @GetMapping("/")
     public String getForm(Model model){
 
@@ -39,7 +40,19 @@ public class WeatherController {
 
     @PostMapping("/")
     private String getData(@RequestParam ("city") String city, @RequestParam("country") String country, String resp) {
+        lon=0;
+        lat=0;
+        pressure = 0;
+        wind = 0;
+        time = null;
+        city2=null;
+        country2=null;
+        temperature=0;
+        weatherIcon=null;
+
+
         RestTemplate restTemplate = new RestTemplate();
+        resp=null;
         String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city.toLowerCase() + "," + country.toLowerCase() + "&APPID=d50e2ced77c40b123bb179d8e5652e86";
 
         resp = restTemplate.getForObject(url, String.class);
@@ -63,6 +76,7 @@ public class WeatherController {
     @GetMapping("/weather")
     private ModelAndView weatherModel() {
         Map<String, Object> model = new LinkedHashMap<>();
+        model.clear();
         model.put("lon",lon);
         model.put("lat",lat);
         model.put("pressure",pressure);
