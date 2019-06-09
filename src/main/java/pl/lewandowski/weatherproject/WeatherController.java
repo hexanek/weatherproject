@@ -2,6 +2,7 @@ package pl.lewandowski.weatherproject;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -10,14 +11,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import pl.lewandowski.weatherproject.CoordSaver.Coords;
+import pl.lewandowski.weatherproject.CoordSaver.CoordsRepo;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class WeatherController {
 
+    @Autowired
+    CoordsRepo coordsRepo;
 
 
     private Integer timestamp;
@@ -40,20 +43,9 @@ public class WeatherController {
 
     @PostMapping("/")
     private String getData(@RequestParam ("city") String city, @RequestParam("country") String country, String resp) {
-        lon=0;
-        lat=0;
-        pressure = 0;
-        wind = 0;
-        time = null;
-        city2=null;
-        country2=null;
-        temperature=0;
-        weatherIcon=null;
-
 
         RestTemplate restTemplate = new RestTemplate();
-        resp=null;
-        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city.toLowerCase() + "," + country.toLowerCase() + "&APPID=d50e2ced77c40b123bb179d8e5652e86";
+        String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city.toLowerCase() + "," + country.toLowerCase() + "&APPID=" + ConfigKey.API_KEY;
 
         resp = restTemplate.getForObject(url, String.class);
 //        System.out.println(resp);
@@ -68,6 +60,7 @@ public class WeatherController {
         pressure = parser.getAsJsonObject().get("main").getAsJsonObject().get("pressure").getAsInt();
         lon = parser.getAsJsonObject().get("coord").getAsJsonObject().get("lon").getAsDouble();
         lat = parser.getAsJsonObject().get("coord").getAsJsonObject().get("lat").getAsDouble();
+        coordSaver();
 
 
         return "redirect:/weather";
@@ -88,6 +81,19 @@ public class WeatherController {
         model.put("icon", weatherIcon);
         return new ModelAndView("weather", model);
     }
+
+    private void coordSaver(){
+        Coords coords = new Coords(lon,lat,city2);
+        coordsRepo.save(coords);
+
+    }
+
+//
+//    @GetMapping("/getcords")
+//    private List<Coords> getCoords(){
+//
+//       return (List<Coords>) coordsRepo.findAll();
+//    }
 
 
 }

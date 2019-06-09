@@ -15,10 +15,7 @@ import java.util.*;
 @RestController
 public class ForecastController {
 
-    private String timestamp;
-    private double temperature;
-    private Date time;
-    private Set<Long> timeset = new TreeSet<Long>();
+    private Set<Long> timeset = new TreeSet<>();
     private ArrayList<Integer> tempset = new ArrayList<>();
     private JsonArray arr;
     private String city2;
@@ -51,12 +48,7 @@ public class ForecastController {
         return new ModelAndView("forecast", model);
     }
 
-//    @GetMapping("/forecast3")
-//    private ModelAndView forecastModel(){
-//
-//
-//
-//    }
+
 
 
 }

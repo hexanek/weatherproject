@@ -2,15 +2,11 @@ package pl.lewandowski.weatherproject;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @RestController
 public class Controller {
@@ -44,10 +40,4 @@ public class Controller {
 
 
 
-    @GetMapping("/home")
-    public String weather(Model model){
-        Map<String, Object> modelik = new LinkedHashMap<>();
-        model.addAttribute("weather", getWeather("poland","gdynia"));
-        return "weather2";
-    }
 }
