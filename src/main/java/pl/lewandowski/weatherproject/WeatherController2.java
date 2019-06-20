@@ -14,17 +14,19 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.lewandowski.weatherproject.CoordSaver.Coords;
 import pl.lewandowski.weatherproject.CoordSaver.CoordsRepo;
 
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Controller
-public class WeatherController {
+public class WeatherController2 {
 
-    Weather weather;
+
     CoordsRepo coordsRepo;
     WeatherRepo weatherRepo;
 
     @Autowired
-    public WeatherController(CoordsRepo coordsRepo, WeatherRepo weatherRepo) {
+    public WeatherController2(CoordsRepo coordsRepo, WeatherRepo weatherRepo) {
         this.coordsRepo = coordsRepo;
         this.weatherRepo = weatherRepo;
     }
@@ -67,25 +69,27 @@ public class WeatherController {
         lon = parser.getAsJsonObject().get("coord").getAsJsonObject().get("lon").getAsDouble();
         lat = parser.getAsJsonObject().get("coord").getAsJsonObject().get("lat").getAsDouble();
         coordSaver();
-        //Weather weather = new Weather(city,country,wind,pressure,lat,lon,temperature);
-        weatherRepo.save(weather);
+
+
 
         return "redirect:/weather";
     }
 
     @GetMapping("/weather")
     private ModelAndView weatherModel() {
+        Weather weather = new Weather(city2,country2,wind,pressure,lat,lon,temperature,time,weatherIcon);
+        weatherRepo.save(weather);
         Map<String, Object> model = new LinkedHashMap<>();
         model.clear();
-        model.put("lon",lon);
-        model.put("lat",lat);
-        model.put("pressure",pressure);
-        model.put("wind",wind);
-        model.put("time", time);
-        model.put("city", city2);
-        model.put("country", country2);
-        model.put("temp", temperature);
-        model.put("icon", weatherIcon);
+        model.put("lon",weather.getLon());
+        model.put("lat",weather.getLat());
+        model.put("pressure",weather.getPressure());
+        model.put("wind",weather.getWind());
+        model.put("time", weather.getTime());
+        model.put("city", weather.getCity());
+        model.put("country", weather.getCountry());
+        model.put("temp", weather.getTemperature());
+        model.put("icon", weather.getWeatherIcon());
         return new ModelAndView("weather", model);
     }
 
@@ -94,10 +98,6 @@ public class WeatherController {
         coordsRepo.save(coords);
     }
 
-    @GetMapping("/sranio")
-    private String sranio(){
-        return "sranio";
-    }
 
 
 

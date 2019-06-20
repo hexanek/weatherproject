@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Entity
 public class Weather {
@@ -18,8 +19,26 @@ public class Weather {
     private double lat;
     private double lon;
     private int temperature;
+    private Date time;
+    private String weatherIcon;
 
-    public Weather(String city, String country, int wind, int pressure, double lat, double lon, int temperature) {
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public String getWeatherIcon() {
+        return weatherIcon;
+    }
+
+    public void setWeatherIcon(String weatherIcon) {
+        this.weatherIcon = weatherIcon;
+    }
+
+    public Weather(String city, String country, int wind, int pressure, double lat, double lon, int temperature, Date time, String weatherIcon) {
         this.city = city;
         this.country = country;
         this.wind = wind;
@@ -27,6 +46,8 @@ public class Weather {
         this.lat = lat;
         this.lon = lon;
         this.temperature = temperature;
+        this.time = time;
+        this.weatherIcon = weatherIcon;
     }
 
     public Weather() {
